@@ -25,7 +25,27 @@ def sub_bytes(block):
 
 
 def shift_rows(block):
-    return
+	# row 2
+	temp = block[1][0]
+	block[1][0] = block[1][1]
+	block[1][1] = block[1][2]
+	block[1][2] = block[1][3]
+	block[1][3] = temp
+
+	# row 3
+	temp = block[2][0]
+	block[2][0] = block[2][2]
+	block[2][2] = temp
+	temp = block[2][1]
+	block[2][1] = block[2][3]
+	block[2][3] = temp
+
+	# row 4
+	temp = block[3][0]
+	block[3][0] = block[3][3]
+	block[3][3] = block[3][2]
+	block[3][2] = block[3][1]
+	block[3][1] = temp
 
 
 def mix_columns(block):
@@ -51,7 +71,7 @@ def read_file(filename):
                     col.append(b'\x00')
                 byte = file.read(1)
             block.append(col)
-        state.append(block)
+        state.append(transpose(block))
     return state
 
 
@@ -66,6 +86,12 @@ def main():
     print(state[0])
     print()
     print(transpose(state[0]))
+
+    matrix = [[1,2,3,4], [1,2,3,4], [1,2,3,4], [1,2,3,4]]
+    print(matrix)
+    print("")
+    shift_rows(matrix)
+    print(matrix)
 
 if __name__ == '__main__':
     main()
