@@ -1,7 +1,7 @@
 """
 
 """
-from utils import least_significant_mask, most_significant_mask, s_box, s_box_inv
+from utils import least_significant_mask, most_significant_mask, s_box, s_box_inv, transpose
 
 def encrypt():
 	return
@@ -20,13 +20,13 @@ def sub_bytes(block):
 			row_index = (most_significant_mask & val) >> 4
 			column[i] = s_box[row_index][col_index].to_bytes(1, byteorder='big')
 
-def shift_rows(state):
+def shift_rows(block):
 	return
 
-def mix_columns(state):
+def mix_columns(block):
 	return
 
-def add_round_key(state):
+def add_round_key(block):
 	return
 
 def read_file(filename):
@@ -50,12 +50,14 @@ def read_file(filename):
 def main():
 	state = read_file("test2.txt")
 	for i in range(len(state)):
-		print(state[i])
-		print("")
+		#print(state[i])
+		#print("")
 		continue
 	print()
 	sub_bytes(state[0])
-	print(state)
+	print(state[0])
+	print()
+	print(transpose(state[0]))
 
 if __name__ == '__main__':
 	main()
