@@ -1,20 +1,38 @@
 """
 
 """
-from utils import least_significant_mask, most_significant_mask, s_box, s_box_inv, transpose, rcon, mul2, mul3
+from utils import least_significant_mask, most_significant_mask, s_box, s_box_inv, transpose, rcon, mul2, mul3, padding
+from copy import copy, deepcopy
 
 
-def encrypt_128():
-    return
+def encrypt_128(block, expanded_key):
+
+    add_round_key(block, expanded_keys[0])
+
+    for i in range(9):
+        sub_bytes(block)
+        shift_rows(block)
+        mix_columns(block)
+        add_round_key(block, expanded_keys[i + 1])
+
+    sub_bytes(block)
+    shift_rows(block)
+    add_round_key(block, expanded_keys[len(expanded_keys) - 1])
+
+    return block
+
 
 def decrypt_128():
     return
 
+
 def encrypt_256():
     return
 
+
 def decrypt_256():
     return
+
 
 def get_sbox_indices(byte):
     int_val = int.from_bytes(byte, byteorder='big')
@@ -22,10 +40,12 @@ def get_sbox_indices(byte):
     col = int_val % 16
     return (row, col)
 
+
 def xor_columns(col1, col2):
     for i in range(4):
         col1[i] = (col1[i][0] ^ col2[i][0]).to_bytes(1, byteorder='big')
     return col1
+
 
 def key_expansion_core(column, i):
     temp = column[0]
@@ -47,7 +67,7 @@ def key_expansion_core(column, i):
     column[3] = s_box[row][col]
 
     column[0] = (column[0][0] ^ rcon[i][0]).to_bytes(1, byteorder='big')
-    #print(column)
+    # print(column)
 
     return column
 
@@ -55,33 +75,27 @@ def key_expansion_core(column, i):
 def key_expansion(input_key):
     expanded_keys = []
     expanded_keys.append(input_key)
-    #print(expanded_keys)
-
 
     num_bytes_generated = 16
     rcon_iteration = 1
     temp = []
     expanded_keys.append([])
-    #print(expanded_keys)
     ek_index = 1
 
-
-    while  num_bytes_generated < 176:
+    while num_bytes_generated < 176:
 
         if num_bytes_generated % 16 == 0:
-            temp = list(expanded_keys[(num_bytes_generated // 16) - 1][3])            
+            temp = list(expanded_keys[(num_bytes_generated // 16) - 1][3])
         else:
-            temp = list(expanded_keys[num_bytes_generated // 16][((num_bytes_generated % 16) // 4) - 1])
-
-        #print(temp)
+            temp = list(expanded_keys[num_bytes_generated // 16][
+                        ((num_bytes_generated % 16) // 4) - 1])
 
         if num_bytes_generated % 16 == 0:
             temp = key_expansion_core(temp, rcon_iteration)
             rcon_iteration += 1
 
-        #print("temp before XOR: " + str(temp))
-        temp = xor_columns(temp, expanded_keys[(num_bytes_generated // 16) - 1][(num_bytes_generated % 16) // 4])
-        #print("temp after XOR: " + str(temp))
+        temp = xor_columns(
+            temp, expanded_keys[(num_bytes_generated // 16) - 1][(num_bytes_generated % 16) // 4])
 
         expanded_keys[ek_index].append(list(temp))
 
@@ -94,6 +108,7 @@ def key_expansion(input_key):
     del expanded_keys[len(expanded_keys) - 1]
 
     return expanded_keys
+
 
 def sub_bytes(block):
     for column in block:
@@ -127,13 +142,19 @@ def shift_rows(block):
     block[3][1] = temp
 
 
-# does not work at all 
+# does not work at all
 def mix_columns(block):
+    temp = deepcopy(block)
     for i in range(4):
-        for j in range(4):
-            value = mul2[block[i][j][0]][0] ^ mul3[block[i][(j + 1) % 4][0]][0] ^ block[i][(j + 2) % 4][0] ^ block[i][(j + 3) % 4][0]
-            block[i][j] = value.to_bytes(1, byteorder='big')
-    return block
+        temp[i][0] = (mul2[block[i][0][0]][0] ^ mul3[block[i][1][0]][0]
+                      ^ block[i][2][0] ^ block[i][3][0]).to_bytes(1, byteorder='big')
+        temp[i][1] = (block[i][0][0] ^ mul2[block[i][1][0]][0] ^ mul3[
+                      block[i][2][0]][0] ^ block[i][3][0]).to_bytes(1, byteorder='big')
+        temp[i][2] = (block[i][0][0] ^ block[i][1][0] ^ mul2[block[i][2][0]][
+                      0] ^ mul3[block[i][3][0]][0]).to_bytes(1, byteorder='big')
+        temp[i][3] = (mul3[block[i][0][0]][0] ^ block[i][1][0] ^ block[
+                      i][2][0] ^ mul2[block[i][3][0]][0]).to_bytes(1, byteorder='big')
+    return temp
 
 
 def add_round_key(block, round_key):
@@ -146,18 +167,32 @@ def read_file(filename):
     state = []
     file = open(filename, 'rb')
     byte = file.read(1)
+    real_byte_count = 0
+    padding_byte_count = 0
+
     while byte != b'':
         block = []
         for i in range(0, 4):
             col = []
             for i in range(0, 4):
                 if byte != b'':
+                    real_byte_count += 1
                     col.append(byte)
                 else:
                     col.append(b'\x00')
                 byte = file.read(1)
             block.append(col)
         state.append(transpose(block))
+
+    padding_byte_count = 16 - (real_byte_count % 16)
+
+    if real_byte_count % 16 == 0:
+        state.append(padding)
+
+    if padding_byte_count != 16:
+        state[len(state) - 1][3][
+            3] = padding_byte_count.to_bytes(1, byteorder='big')
+
     return state
 
 
@@ -182,8 +217,15 @@ def main():
     print(get_sbox_indices(b'\x02'))
     """
 
-    test = [[b'\x00', b'\x00', b'\x00', b'\x00'], [b'\x00', b'\x00', b'\x00', b'\x00'], [b'\x00', b'\x00', b'\x00', b'\x00'], [b'\x00', b'\x00', b'\x00', b'\x00']]
-    test2 = [[b'\xdb', b'\x13', b'\x53', b'\x45'], [b'\x00', b'\x00', b'\x00', b'\x00'], [b'\x00', b'\x00', b'\x00', b'\x00'], [b'\x00', b'\x00', b'\x00', b'\x00']]
+    test = [
+        [b'\x00', b'\x00', b'\x00', b'\x00'], [
+            b'\x00', b'\x00', b'\x00', b'\x00'],
+        [b'\x00', b'\x00', b'\x00', b'\x00'], [b'\x00', b'\x00', b'\x00', b'\x00']]
+    test2 = [
+        [b'\x7c', b'\x6b', b'\x01', b'\xd7'], [
+            b'\xf2', b'\x30', b'\xfe', b'\x63'],
+        [b'\x2b', b'\x76', b'\x7b', b'\xc5'], [b'\xab', b'\x77', b'\x6f', b'\x67']]
+    """
     print("")
     print("")
     result = key_expansion(test)
@@ -191,7 +233,26 @@ def main():
         for row in key:
             print(row, end='')
             print("")
-    print(mix_columns(test2))
+    """
+
+    """
+    print(test2)
+    print("")
+
+    print(len(mul2))
+    print(len(mul3))
+
+    print(transpose(mix_columns(transpose(test2))))
+    """
+
+    state = read_file("test3")
+    print(state)
+
+    for i in state:
+        print(encrypt_128(state[i]))
+
+    print()
+    print(transpose(state))
 
 
 if __name__ == '__main__':
