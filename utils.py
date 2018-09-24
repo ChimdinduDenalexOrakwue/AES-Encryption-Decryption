@@ -115,6 +115,9 @@ padding = [
     [b'\x00', b'\x00', b'\x00', b'\x00'], [b'\x00', b'\x00', b'\x00', b'\x10']]
 
 
+test_key = 4 * [4 * [b'\x00']]
+
+
 def transpose(block):
     new_block = [[block[col][row]
                   for col in range(len(block))] for row in range(len(block[0]))]

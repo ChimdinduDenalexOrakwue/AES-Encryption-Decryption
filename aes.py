@@ -1,18 +1,20 @@
 """
 
 """
-from utils import least_significant_mask, most_significant_mask, s_box, s_box_inv, transpose, rcon, mul2, mul3, padding
+from utils import least_significant_mask, most_significant_mask, s_box, s_box_inv, transpose, rcon, mul2, mul3, padding, test_key
 from copy import copy, deepcopy
 
 
-def encrypt_128(block, expanded_key):
+def encrypt_128(block, expanded_keys):
 
     add_round_key(block, expanded_keys[0])
 
     for i in range(9):
         sub_bytes(block)
+        block = transpose(block)
         shift_rows(block)
-        mix_columns(block)
+        block = transpose(block)
+        block = mix_columns(block)
         add_round_key(block, expanded_keys[i + 1])
 
     sub_bytes(block)
@@ -67,7 +69,6 @@ def key_expansion_core(column, i):
     column[3] = s_box[row][col]
 
     column[0] = (column[0][0] ^ rcon[i][0]).to_bytes(1, byteorder='big')
-    # print(column)
 
     return column
 
@@ -100,6 +101,7 @@ def key_expansion(input_key):
         expanded_keys[ek_index].append(list(temp))
 
         if len(expanded_keys[ek_index]) == 4:
+            # expanded_keys[ek_index] = transpose(expanded_keys[ek_index])
             expanded_keys.append([])
             ek_index += 1
 
@@ -159,7 +161,7 @@ def mix_columns(block):
 
 def add_round_key(block, round_key):
     for i in range(4):
-        block[i] = xor_columns(block[0], round_key[i])
+        block[i] = xor_columns(block[i], round_key[i])
     return block
 
 
@@ -182,7 +184,7 @@ def read_file(filename):
                     col.append(b'\x00')
                 byte = file.read(1)
             block.append(col)
-        state.append(transpose(block))
+        state.append(block)
 
     padding_byte_count = 16 - (real_byte_count % 16)
 
@@ -245,14 +247,16 @@ def main():
     print(transpose(mix_columns(transpose(test2))))
     """
 
-    state = read_file("test3")
-    print(state)
+    state = read_file("test/input")
+    print (state)
+    print("")
+
+    expanded_keys = key_expansion(test_key)
+    print(expanded_keys)
+    print("")
 
     for i in state:
-        print(encrypt_128(state[i]))
-
-    print()
-    print(transpose(state))
+        print(encrypt_128(i, expanded_keys))
 
 
 if __name__ == '__main__':
