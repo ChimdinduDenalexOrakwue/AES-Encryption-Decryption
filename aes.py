@@ -1,7 +1,7 @@
 """
 
 """
-from utils import least_significant_mask, most_significant_mask, s_box, s_box_inv, transpose, rcon, mul2, mul3, padding, test_key
+from utils import least_significant_mask, most_significant_mask, s_box, s_box_inv, transpose, rcon, mul2, mul3, padding, test_key, print_3d_bytes, print_2d_bytes
 from copy import copy, deepcopy
 
 
@@ -248,15 +248,20 @@ def main():
     """
 
     state = read_file("test/input")
-    print (state)
-    print("")
+    for i in range(len(state)):
+        print("Initial State: Block", i)
+        print_2d_bytes(state[i])
+        print("")
 
     expanded_keys = key_expansion(test_key)
-    print(expanded_keys)
+    print("Expanded Key")
+    print_3d_bytes(expanded_keys)
     print("")
 
-    for i in state:
-        print(encrypt_128(i, expanded_keys))
+    for i in range(len(state)):
+        print("Encrypted State: Block", i)
+        print_2d_bytes(encrypt_128(state[i], expanded_keys))
+        print("")
 
 
 if __name__ == '__main__':
