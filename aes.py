@@ -18,7 +18,9 @@ def encrypt_128(block, expanded_keys):
         add_round_key(block, expanded_keys[i + 1])
 
     sub_bytes(block)
+    block = transpose(block)
     shift_rows(block)
+    block = transpose(block)
     add_round_key(block, expanded_keys[len(expanded_keys) - 1])
 
     return block
@@ -246,6 +248,14 @@ def main():
 
     print(transpose(mix_columns(transpose(test2))))
     """
+
+    test3 = [
+        [b'\x00', b'\x11', b'\x22', b'\x33'], [b'\x44', b'\x55', b'\x66', b'\x77'],
+        [b'\x88', b'\x99', b'\xaa', b'\xbb'], [b'\xcc', b'\xdd', b'\xee', b'\xff']]
+
+    test_key2 = [
+        [b'\x00', b'\x01', b'\x02', b'\x03'], [b'\x04', b'\x05', b'\x06', b'\x07'],
+        [b'\x08', b'\x09', b'\x0a', b'\x0b'], [b'\x0c', b'\x0d', b'\x0e', b'\x0f']]
 
     state = read_file("test/input")
     for i in range(len(state)):
