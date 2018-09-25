@@ -107,6 +107,82 @@ mul3 = [
         b'\x3b', b'\x38', b'\x3d', b'\x3e', b'\x37', b'\x34', b'\x31', b'\x32', b'\x23', b'\x20', b'\x25', b'\x26', b'\x2f', b'\x2c', b'\x29', b'\x2a',
         b'\x0b', b'\x08', b'\x0d', b'\x0e', b'\x07', b'\x04', b'\x01', b'\x02', b'\x13', b'\x10', b'\x15', b'\x16', b'\x1f', b'\x1c', b'\x19', b'\x1a']
 
+mul9 = [
+    b'\x00',  b'\x09',  b'\x12',  b'\x1b',  b'\x24',  b'\x2d',  b'\x36',  b'\x3f',  b'\x48',  b'\x41',  b'\x5a',  b'\x53',  b'\x6c',  b'\x65',  b'\x7e',  b'\x77',
+   b'\x90',  b'\x99',  b'\x82',  b'\x8b',  b'\xb4',  b'\xbd',  b'\xa6',  b'\xaf',  b'\xd8',  b'\xd1',  b'\xca',  b'\xc3',  b'\xfc',  b'\xf5',  b'\xee',  b'\xe7',
+   b'\x3b',  b'\x32',  b'\x29',  b'\x20',  b'\x1f',  b'\x16',  b'\x0d',  b'\x04',  b'\x73',  b'\x7a',  b'\x61',  b'\x68',  b'\x57',  b'\x5e',  b'\x45',  b'\x4c',
+   b'\xab',  b'\xa2',  b'\xb9',  b'\xb0',  b'\x8f',  b'\x86',  b'\x9d',  b'\x94',  b'\xe3',  b'\xea',  b'\xf1',  b'\xf8',  b'\xc7',  b'\xce',  b'\xd5',  b'\xdc',
+   b'\x76',  b'\x7f',  b'\x64',  b'\x6d',  b'\x52',  b'\x5b',  b'\x40',  b'\x49',  b'\x3e',  b'\x37',  b'\x2c',  b'\x25',  b'\x1a',  b'\x13',  b'\x08',  b'\x01',
+   b'\xe6',  b'\xef',  b'\xf4',  b'\xfd',  b'\xc2',  b'\xcb',  b'\xd0',  b'\xd9',  b'\xae',  b'\xa7',  b'\xbc',  b'\xb5',  b'\x8a',  b'\x83',  b'\x98',  b'\x91',
+   b'\x4d',  b'\x44',  b'\x5f',  b'\x56',  b'\x69',  b'\x60',  b'\x7b',  b'\x72',  b'\x05',  b'\x0c',  b'\x17',  b'\x1e',  b'\x21',  b'\x28',  b'\x33',  b'\x3a',
+   b'\xdd',  b'\xd4',  b'\xcf',  b'\xc6',  b'\xf9',  b'\xf0',  b'\xeb',  b'\xe2',  b'\x95',  b'\x9c',  b'\x87',  b'\x8e',  b'\xb1',  b'\xb8',  b'\xa3',  b'\xaa',
+   b'\xec',  b'\xe5',  b'\xfe',  b'\xf7',  b'\xc8',  b'\xc1',  b'\xda',  b'\xd3',  b'\xa4',  b'\xad',  b'\xb6',  b'\xbf',  b'\x80',  b'\x89',  b'\x92',  b'\x9b',
+   b'\x7c',  b'\x75',  b'\x6e',  b'\x67',  b'\x58',  b'\x51',  b'\x4a',  b'\x43',  b'\x34',  b'\x3d',  b'\x26',  b'\x2f',  b'\x10',  b'\x19',  b'\x02',  b'\x0b',
+   b'\xd7',  b'\xde',  b'\xc5',  b'\xcc',  b'\xf3',  b'\xfa',  b'\xe1',  b'\xe8',  b'\x9f',  b'\x96',  b'\x8d',  b'\x84',  b'\xbb',  b'\xb2',  b'\xa9',  b'\xa0',
+   b'\x47',  b'\x4e',  b'\x55',  b'\x5c',  b'\x63',  b'\x6a',  b'\x71',  b'\x78',  b'\x0f',  b'\x06',  b'\x1d',  b'\x14',  b'\x2b',  b'\x22',  b'\x39',  b'\x30',
+   b'\x9a',  b'\x93',  b'\x88',  b'\x81',  b'\xbe',  b'\xb7',  b'\xac',  b'\xa5',  b'\xd2',  b'\xdb',  b'\xc0',  b'\xc9',  b'\xf6',  b'\xff',  b'\xe4',  b'\xed',
+   b'\x0a',  b'\x03',  b'\x18',  b'\x11',  b'\x2e',  b'\x27',  b'\x3c',  b'\x35',  b'\x42',  b'\x4b',  b'\x50',  b'\x59',  b'\x66',  b'\x6f',  b'\x74',  b'\x7d',
+   b'\xa1',  b'\xa8',  b'\xb3',  b'\xba',  b'\x85',  b'\x8c',  b'\x97',  b'\x9e',  b'\xe9',  b'\xe0',  b'\xfb',  b'\xf2',  b'\xcd',  b'\xc4',  b'\xdf',  b'\xd6',
+   b'\x31',  b'\x38',  b'\x23',  b'\x2a',  b'\x15',  b'\x1c',  b'\x07',  b'\x0e',  b'\x79',  b'\x70',  b'\x6b',  b'\x62',  b'\x5d',  b'\x54',  b'\x4f',  b'\x46'
+]
+
+mul11 = [
+    b'\x00',  b'\x0b',  b'\x16',  b'\x1d',  b'\x2c',  b'\x27',  b'\x3a',  b'\x31',  b'\x58',  b'\x53',  b'\x4e',  b'\x45',  b'\x74',  b'\x7f',  b'\x62',  b'\x69',
+   b'\xb0',  b'\xbb',  b'\xa6',  b'\xad',  b'\x9c',  b'\x97',  b'\x8a',  b'\x81',  b'\xe8',  b'\xe3',  b'\xfe',  b'\xf5',  b'\xc4',  b'\xcf',  b'\xd2',  b'\xd9',
+   b'\x7b',  b'\x70',  b'\x6d',  b'\x66',  b'\x57',  b'\x5c',  b'\x41',  b'\x4a',  b'\x23',  b'\x28',  b'\x35',  b'\x3e',  b'\x0f',  b'\x04',  b'\x19',  b'\x12',
+   b'\xcb',  b'\xc0',  b'\xdd',  b'\xd6',  b'\xe7',  b'\xec',  b'\xf1',  b'\xfa',  b'\x93',  b'\x98',  b'\x85',  b'\x8e',  b'\xbf',  b'\xb4',  b'\xa9',  b'\xa2',
+   b'\xf6',  b'\xfd',  b'\xe0',  b'\xeb',  b'\xda',  b'\xd1',  b'\xcc',  b'\xc7',  b'\xae',  b'\xa5',  b'\xb8',  b'\xb3',  b'\x82',  b'\x89',  b'\x94',  b'\x9f',
+   b'\x46',  b'\x4d',  b'\x50',  b'\x5b',  b'\x6a',  b'\x61',  b'\x7c',  b'\x77',  b'\x1e',  b'\x15',  b'\x08',  b'\x03',  b'\x32',  b'\x39',  b'\x24',  b'\x2f',
+   b'\x8d',  b'\x86',  b'\x9b',  b'\x90',  b'\xa1',  b'\xaa',  b'\xb7',  b'\xbc',  b'\xd5',  b'\xde',  b'\xc3',  b'\xc8',  b'\xf9',  b'\xf2',  b'\xef',  b'\xe4',
+   b'\x3d',  b'\x36',  b'\x2b',  b'\x20',  b'\x11',  b'\x1a',  b'\x07',  b'\x0c',  b'\x65',  b'\x6e',  b'\x73',  b'\x78',  b'\x49',  b'\x42',  b'\x5f',  b'\x54',
+   b'\xf7',  b'\xfc',  b'\xe1',  b'\xea',  b'\xdb',  b'\xd0',  b'\xcd',  b'\xc6',  b'\xaf',  b'\xa4',  b'\xb9',  b'\xb2',  b'\x83',  b'\x88',  b'\x95',  b'\x9e',
+   b'\x47',  b'\x4c',  b'\x51',  b'\x5a',  b'\x6b',  b'\x60',  b'\x7d',  b'\x76',  b'\x1f',  b'\x14',  b'\x09',  b'\x02',  b'\x33',  b'\x38',  b'\x25',  b'\x2e',
+   b'\x8c',  b'\x87',  b'\x9a',  b'\x91',  b'\xa0',  b'\xab',  b'\xb6',  b'\xbd',  b'\xd4',  b'\xdf',  b'\xc2',  b'\xc9',  b'\xf8',  b'\xf3',  b'\xee',  b'\xe5',
+   b'\x3c',  b'\x37',  b'\x2a',  b'\x21',  b'\x10',  b'\x1b',  b'\x06',  b'\x0d',  b'\x64',  b'\x6f',  b'\x72',  b'\x79',  b'\x48',  b'\x43',  b'\x5e',  b'\x55',
+   b'\x01',  b'\x0a',  b'\x17',  b'\x1c',  b'\x2d',  b'\x26',  b'\x3b',  b'\x30',  b'\x59',  b'\x52',  b'\x4f',  b'\x44',  b'\x75',  b'\x7e',  b'\x63',  b'\x68',
+   b'\xb1',  b'\xba',  b'\xa7',  b'\xac',  b'\x9d',  b'\x96',  b'\x8b',  b'\x80',  b'\xe9',  b'\xe2',  b'\xff',  b'\xf4',  b'\xc5',  b'\xce',  b'\xd3',  b'\xd8',
+   b'\x7a',  b'\x71',  b'\x6c',  b'\x67',  b'\x56',  b'\x5d',  b'\x40',  b'\x4b',  b'\x22',  b'\x29',  b'\x34',  b'\x3f',  b'\x0e',  b'\x05',  b'\x18',  b'\x13',
+   b'\xca',  b'\xc1',  b'\xdc',  b'\xd7',  b'\xe6',  b'\xed',  b'\xf0',  b'\xfb',  b'\x92',  b'\x99',  b'\x84',  b'\x8f',  b'\xbe',  b'\xb5',  b'\xa8',  b'\xa3'
+]
+
+mul13 = [
+    b'\x00',  b'\x0d',  b'\x1a',  b'\x17',  b'\x34',  b'\x39',  b'\x2e',  b'\x23',  b'\x68',  b'\x65',  b'\x72',  b'\x7f',  b'\x5c',  b'\x51',  b'\x46',  b'\x4b',
+   b'\xd0',  b'\xdd',  b'\xca',  b'\xc7',  b'\xe4',  b'\xe9',  b'\xfe',  b'\xf3',  b'\xb8',  b'\xb5',  b'\xa2',  b'\xaf',  b'\x8c',  b'\x81',  b'\x96',  b'\x9b',
+   b'\xbb',  b'\xb6',  b'\xa1',  b'\xac',  b'\x8f',  b'\x82',  b'\x95',  b'\x98',  b'\xd3',  b'\xde',  b'\xc9',  b'\xc4',  b'\xe7',  b'\xea',  b'\xfd',  b'\xf0',
+   b'\x6b',  b'\x66',  b'\x71',  b'\x7c',  b'\x5f',  b'\x52',  b'\x45',  b'\x48',  b'\x03',  b'\x0e',  b'\x19',  b'\x14',  b'\x37',  b'\x3a',  b'\x2d',  b'\x20',
+   b'\x6d',  b'\x60',  b'\x77',  b'\x7a',  b'\x59',  b'\x54',  b'\x43',  b'\x4e',  b'\x05',  b'\x08',  b'\x1f',  b'\x12',  b'\x31',  b'\x3c',  b'\x2b',  b'\x26',
+   b'\xbd',  b'\xb0',  b'\xa7',  b'\xaa',  b'\x89',  b'\x84',  b'\x93',  b'\x9e',  b'\xd5',  b'\xd8',  b'\xcf',  b'\xc2',  b'\xe1',  b'\xec',  b'\xfb',  b'\xf6',
+   b'\xd6',  b'\xdb',  b'\xcc',  b'\xc1',  b'\xe2',  b'\xef',  b'\xf8',  b'\xf5',  b'\xbe',  b'\xb3',  b'\xa4',  b'\xa9',  b'\x8a',  b'\x87',  b'\x90',  b'\x9d',
+   b'\x06',  b'\x0b',  b'\x1c',  b'\x11',  b'\x32',  b'\x3f',  b'\x28',  b'\x25',  b'\x6e',  b'\x63',  b'\x74',  b'\x79',  b'\x5a',  b'\x57',  b'\x40',  b'\x4d',
+   b'\xda',  b'\xd7',  b'\xc0',  b'\xcd',  b'\xee',  b'\xe3',  b'\xf4',  b'\xf9',  b'\xb2',  b'\xbf',  b'\xa8',  b'\xa5',  b'\x86',  b'\x8b',  b'\x9c',  b'\x91',
+   b'\x0a',  b'\x07',  b'\x10',  b'\x1d',  b'\x3e',  b'\x33',  b'\x24',  b'\x29',  b'\x62',  b'\x6f',  b'\x78',  b'\x75',  b'\x56',  b'\x5b',  b'\x4c',  b'\x41',
+   b'\x61',  b'\x6c',  b'\x7b',  b'\x76',  b'\x55',  b'\x58',  b'\x4f',  b'\x42',  b'\x09',  b'\x04',  b'\x13',  b'\x1e',  b'\x3d',  b'\x30',  b'\x27',  b'\x2a',
+   b'\xb1',  b'\xbc',  b'\xab',  b'\xa6',  b'\x85',  b'\x88',  b'\x9f',  b'\x92',  b'\xd9',  b'\xd4',  b'\xc3',  b'\xce',  b'\xed',  b'\xe0',  b'\xf7',  b'\xfa',
+   b'\xb7',  b'\xba',  b'\xad',  b'\xa0',  b'\x83',  b'\x8e',  b'\x99',  b'\x94',  b'\xdf',  b'\xd2',  b'\xc5',  b'\xc8',  b'\xeb',  b'\xe6',  b'\xf1',  b'\xfc',
+   b'\x67',  b'\x6a',  b'\x7d',  b'\x70',  b'\x53',  b'\x5e',  b'\x49',  b'\x44',  b'\x0f',  b'\x02',  b'\x15',  b'\x18',  b'\x3b',  b'\x36',  b'\x21',  b'\x2c',
+   b'\x0c',  b'\x01',  b'\x16',  b'\x1b',  b'\x38',  b'\x35',  b'\x22',  b'\x2f',  b'\x64',  b'\x69',  b'\x7e',  b'\x73',  b'\x50',  b'\x5d',  b'\x4a',  b'\x47',
+   b'\xdc',  b'\xd1',  b'\xc6',  b'\xcb',  b'\xe8',  b'\xe5',  b'\xf2',  b'\xff',  b'\xb4',  b'\xb9',  b'\xae',  b'\xa3',  b'\x80',  b'\x8d',  b'\x9a',  b'\x97'
+]
+
+mul14 = [
+    b'\x00',  b'\x0e',  b'\x1c',  b'\x12',  b'\x38',  b'\x36',  b'\x24',  b'\x2a',  b'\x70',  b'\x7e',  b'\x6c',  b'\x62',  b'\x48',  b'\x46',  b'\x54',  b'\x5a',
+   b'\xe0',  b'\xee',  b'\xfc',  b'\xf2',  b'\xd8',  b'\xd6',  b'\xc4',  b'\xca',  b'\x90',  b'\x9e',  b'\x8c',  b'\x82',  b'\xa8',  b'\xa6',  b'\xb4',  b'\xba',
+   b'\xdb',  b'\xd5',  b'\xc7',  b'\xc9',  b'\xe3',  b'\xed',  b'\xff',  b'\xf1',  b'\xab',  b'\xa5',  b'\xb7',  b'\xb9',  b'\x93',  b'\x9d',  b'\x8f',  b'\x81',
+   b'\x3b',  b'\x35',  b'\x27',  b'\x29',  b'\x03',  b'\x0d',  b'\x1f',  b'\x11',  b'\x4b',  b'\x45',  b'\x57',  b'\x59',  b'\x73',  b'\x7d',  b'\x6f',  b'\x61',
+   b'\xad',  b'\xa3',  b'\xb1',  b'\xbf',  b'\x95',  b'\x9b',  b'\x89',  b'\x87',  b'\xdd',  b'\xd3',  b'\xc1',  b'\xcf',  b'\xe5',  b'\xeb',  b'\xf9',  b'\xf7',
+   b'\x4d',  b'\x43',  b'\x51',  b'\x5f',  b'\x75',  b'\x7b',  b'\x69',  b'\x67',  b'\x3d',  b'\x33',  b'\x21',  b'\x2f',  b'\x05',  b'\x0b',  b'\x19',  b'\x17',
+   b'\x76',  b'\x78',  b'\x6a',  b'\x64',  b'\x4e',  b'\x40',  b'\x52',  b'\x5c',  b'\x06',  b'\x08',  b'\x1a',  b'\x14',  b'\x3e',  b'\x30',  b'\x22',  b'\x2c',
+   b'\x96',  b'\x98',  b'\x8a',  b'\x84',  b'\xae',  b'\xa0',  b'\xb2',  b'\xbc',  b'\xe6',  b'\xe8',  b'\xfa',  b'\xf4',  b'\xde',  b'\xd0',  b'\xc2',  b'\xcc',
+   b'\x41',  b'\x4f',  b'\x5d',  b'\x53',  b'\x79',  b'\x77',  b'\x65',  b'\x6b',  b'\x31',  b'\x3f',  b'\x2d',  b'\x23',  b'\x09',  b'\x07',  b'\x15',  b'\x1b',
+   b'\xa1',  b'\xaf',  b'\xbd',  b'\xb3',  b'\x99',  b'\x97',  b'\x85',  b'\x8b',  b'\xd1',  b'\xdf',  b'\xcd',  b'\xc3',  b'\xe9',  b'\xe7',  b'\xf5',  b'\xfb',
+   b'\x9a',  b'\x94',  b'\x86',  b'\x88',  b'\xa2',  b'\xac',  b'\xbe',  b'\xb0',  b'\xea',  b'\xe4',  b'\xf6',  b'\xf8',  b'\xd2',  b'\xdc',  b'\xce',  b'\xc0',
+   b'\x7a',  b'\x74',  b'\x66',  b'\x68',  b'\x42',  b'\x4c',  b'\x5e',  b'\x50',  b'\x0a',  b'\x04',  b'\x16',  b'\x18',  b'\x32',  b'\x3c',  b'\x2e',  b'\x20',
+   b'\xec',  b'\xe2',  b'\xf0',  b'\xfe',  b'\xd4',  b'\xda',  b'\xc8',  b'\xc6',  b'\x9c',  b'\x92',  b'\x80',  b'\x8e',  b'\xa4',  b'\xaa',  b'\xb8',  b'\xb6',
+   b'\x0c',  b'\x02',  b'\x10',  b'\x1e',  b'\x34',  b'\x3a',  b'\x28',  b'\x26',  b'\x7c',  b'\x72',  b'\x60',  b'\x6e',  b'\x44',  b'\x4a',  b'\x58',  b'\x56',
+   b'\x37',  b'\x39',  b'\x2b',  b'\x25',  b'\x0f',  b'\x01',  b'\x13',  b'\x1d',  b'\x47',  b'\x49',  b'\x5b',  b'\x55',  b'\x7f',  b'\x71',  b'\x63',  b'\x6d',
+   b'\xd7',  b'\xd9',  b'\xcb',  b'\xc5',  b'\xef',  b'\xe1',  b'\xf3',  b'\xfd',  b'\xa7',  b'\xa9',  b'\xbb',  b'\xb5',  b'\x9f',  b'\x91',  b'\x83',  b'\x8d'
+]
+
 rcon = [b'\x8d', b'\x01', b'\x02', b'\x04', b'\x08',
         b'\x10', b'\x20', b'\x40', b'\x80', b'\x1b', b'\x36']
 
@@ -123,9 +199,11 @@ def transpose(block):
                   for col in range(len(block))] for row in range(len(block[0]))]
     return new_block
 
+
 def print_3d_bytes(list_of_matrix):
-    print("\n".join([" ".join([" ".join([str(k.hex()) for k in j]) for j in i]) for i in list_of_matrix]))
+    print("\n".join([" ".join([" ".join([str(k.hex()) for k in j]) for j in i])
+          for i in list_of_matrix]))
+
 
 def print_2d_bytes(matrix):
     print("\n".join([" ".join([str(k.hex()) for k in j]) for j in matrix]))
-
