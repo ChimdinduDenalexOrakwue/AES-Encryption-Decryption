@@ -206,7 +206,7 @@ padding = [
 
 
 test_key = 4 * [4 * [b'\x00']]
-test_key_256 = 8 * [4 * [b'\x00']]
+test_key_256 = 2 * [4 * [4 * [b'\x00']]]
 
 
 def transpose(block):

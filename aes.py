@@ -162,37 +162,44 @@ def key_expansion(input_key):
 
 def key_expansion_256(input_key):
     expanded_keys = []
-    expanded_keys.append(input_key)
+    expanded_keys.append(input_key[0])
+    expanded_keys.append(input_key[1])
+    #expanded_keys.append(input_key)
+    #print(input_key)
 
     num_bytes_generated = 32
     rcon_iteration = 1
     temp = []
     expanded_keys.append([])
-    ek_index = 1
+    ek_index = 2
 
     while num_bytes_generated < 240:
 
-        if num_bytes_generated % 32 == 0:
-            temp = list(expanded_keys[(num_bytes_generated // 32) - 1][3])
+        if num_bytes_generated % 16 == 0:
+            temp = list(expanded_keys[(num_bytes_generated // 16) - 1][3])
         else:
-            temp = list(expanded_keys[num_bytes_generated // 32][
-                        ((num_bytes_generated % 32) // 4) - 1])
+            temp = list(expanded_keys[num_bytes_generated // 16][
+                        ((num_bytes_generated % 16) // 4) - 1])
 
-        if num_bytes_generated % 32 == 0:
+        if num_bytes_generated % 32 == 0 and num_bytes_generated % 16 == 0:
             temp = key_expansion_core(temp, rcon_iteration)
             rcon_iteration += 1
 
-        print(type(temp[0][0]))
+        if num_bytes_generated % 16 == 0 and num_bytes_generated % 32 != 0:
+            for i in range(4):
+                row, col = get_sbox_indices(temp[i])
+                temp[i] = s_box[row][col]
+
+
+        #print(type(temp[0][0]))
         #print_2d_bytes(temp)
-        if num_bytes_generated % 32 == 16:
-            sub_bytes(temp)
 
         temp = xor_columns(
-            temp, expanded_keys[(num_bytes_generated // 32) - 1][(num_bytes_generated % 32) // 4])
+            temp, expanded_keys[(num_bytes_generated // 16) - 2][(num_bytes_generated % 16) // 4])
 
         expanded_keys[ek_index].append(list(temp))
 
-        if len(expanded_keys[ek_index]) == 8:
+        if len(expanded_keys[ek_index]) == 4:
             expanded_keys.append([])
             ek_index += 1
 
@@ -395,7 +402,7 @@ def main():
         print_2d_bytes(state[i])
         print("")
 
-    expanded_keys = key_expansion(test_key)
+    expanded_keys = key_expansion_256(test_key_256)
     print("Expanded Key")
     print_3d_bytes(expanded_keys)
     print("")
@@ -403,7 +410,7 @@ def main():
     for i in range(len(state)):
         print("Encrypted State: Block", i)
         #print_2d_bytes(decrypt_256(encrypt_256(state[i], expanded_keys), expanded_keys))
-        print_2d_bytes(encrypt_128(state[i], expanded_keys))
+        print_2d_bytes(encrypt_256(state[i], expanded_keys))
         print("")
 
     matrix = [[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]]
