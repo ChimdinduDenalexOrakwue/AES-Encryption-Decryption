@@ -336,6 +336,56 @@ def read_file(filename):
 
     return state
 
+def read_key(filename):
+    key = []
+    file = open(filename, 'rb')
+    byte = file.read(1)
+
+    while byte != b'':
+        block = []
+        for i in range(0, 4):
+            col = []
+            for i in range(0, 4):
+                if byte != b'':
+                    col.append(byte)
+                else:
+                    break
+                byte = file.read(1)
+            block.append(col)
+        key.append(block)
+    
+    print(key)
+    if len(key) == 1:
+            key = key[0]
+
+    return key
+
+def remove_padding(state):
+    padded_bytes = state[3][3][0]
+    zero_bytes = 1
+    for i in range(3, -1, -1):
+        for j in range(3, -1, -1):
+            if i == 3 and j == 3:
+                continue
+            if state[i][j][0] == 0:
+                zero_bytes += 1
+
+    if padded_bytes == zero_bytes:
+        for i in range(3, -1, -1):
+            for j in range(3, -1, -1):
+                if zero_bytes > 0:
+                    state[i][j] = b''
+                    zero_bytes -= 1
+
+    return state
+
+def output_to_file(filename, state):
+    with open(filename, "wb") as file:
+        for i in range(len(state)):
+            for j in range(4):
+                for k in range(4):
+                    if state[i][j][k] != b'':
+                        file.write(bytes(state[i][j][k]))
 
 def main():
     """
@@ -398,28 +448,42 @@ def main():
 
     state = read_file("test/input")
     for i in range(len(state)):
-        print("Initial State: Block", i)
+        #print("Initial State: Block", i)
         print_2d_bytes(state[i])
-        print("")
+        #print("")
 
-    expanded_keys = key_expansion_256(test_key_256)
-    print("Expanded Key")
-    print_3d_bytes(expanded_keys)
-    print("")
+    test_key = read_key("test/key")
+    #print("This is the key")
+    expanded_keys = key_expansion(test_key)
+    #print("Expanded Key")
+    #print_3d_bytes(expanded_keys)
+    #print("")
 
     for i in range(len(state)):
-        print("Encrypted State: Block", i)
+        #print("Encrypted State: Block", i)
         #print_2d_bytes(decrypt_256(encrypt_256(state[i], expanded_keys), expanded_keys))
-        print_2d_bytes(encrypt_256(state[i], expanded_keys))
-        print("")
+        encrypt_128(state[i], expanded_keys)
+        #print("")
 
-    matrix = [[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]]
-    print("test inv_shift_rows")
-    inv_shift_rows(matrix)
-    print(matrix)
-    print(test_key_256)
-    expanded_keys = key_expansion_256(test_key_256)
-    print_3d_bytes(expanded_keys)
+    for i in range(len(state)):
+        decrypt_128(state[i], expanded_keys)
+
+    #print(state[1])
+    #print("No Padding")
+    state[len(state) - 1] = remove_padding(state[len(state) - 1])
+    #print(s)
+    #print_2d_bytes(s)
+    print_3d_bytes(state)
+
+    output_to_file("test_output", state)
+
+    #matrix = [[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]]
+    #print("test inv_shift_rows")
+    #inv_shift_rows(matrix)
+    #print(matrix)
+    #print(test_key_256)
+    #expanded_keys = key_expansion_256(test_key_256)
+    #print_3d_bytes(expanded_keys)
 
 
 if __name__ == '__main__':
