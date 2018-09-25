@@ -1,7 +1,7 @@
 """
 
 """
-from utils import least_significant_mask, most_significant_mask, s_box, s_box_inv, transpose, rcon, mul2, mul3, padding, test_key, print_3d_bytes, print_2d_bytes
+from utils import least_significant_mask, most_significant_mask, s_box, s_box_inv, transpose, rcon, mul2, mul3, mul9, mul11, mul13, mul14, padding, test_key, test_key_256, print_3d_bytes, print_2d_bytes
 from copy import copy, deepcopy
 
 
@@ -26,16 +26,64 @@ def encrypt_128(block, expanded_keys):
     return block
 
 
-def decrypt_128():
-    return
+def decrypt_128(block, expanded_keys):
+    add_round_key(block, expanded_keys[len(expanded_keys) - 1])
+
+    for i in range(9):
+        block = transpose(block)
+        inv_shift_rows(block)
+        block = transpose(block)
+        inv_sub_bytes(block)
+        add_round_key(block, expanded_keys[len(expanded_keys) - 2 - i])
+        block = inv_mix_columns(block)
+
+    block = transpose(block)
+    inv_shift_rows(block)
+    block = transpose(block)
+    inv_sub_bytes(block)
+    add_round_key(block, expanded_keys[0])
+
+    return block
 
 
-def encrypt_256():
-    return
+def encrypt_256(block, expanded_keys):
+    add_round_key(block, expanded_keys[0])
+
+    for i in range(13):
+        sub_bytes(block)
+        block = transpose(block)
+        shift_rows(block)
+        block = transpose(block)
+        block = mix_columns(block)
+        add_round_key(block, expanded_keys[i + 1])
+
+    sub_bytes(block)
+    block = transpose(block)
+    shift_rows(block)
+    block = transpose(block)
+    add_round_key(block, expanded_keys[len(expanded_keys) - 1])
+
+    return block
 
 
-def decrypt_256():
-    return
+def decrypt_256(block, expanded_keys):
+    add_round_key(block, expanded_keys[len(expanded_keys) - 1])
+
+    for i in range(13):
+        block = transpose(block)
+        inv_shift_rows(block)
+        block = transpose(block)
+        inv_sub_bytes(block)
+        add_round_key(block, expanded_keys[len(expanded_keys) - 2 - i])
+        block = inv_mix_columns(block)
+
+    block = transpose(block)
+    inv_shift_rows(block)
+    block = transpose(block)
+    inv_sub_bytes(block)
+    add_round_key(block, expanded_keys[0])
+
+    return block
 
 
 def get_sbox_indices(byte):
@@ -103,7 +151,48 @@ def key_expansion(input_key):
         expanded_keys[ek_index].append(list(temp))
 
         if len(expanded_keys[ek_index]) == 4:
-            # expanded_keys[ek_index] = transpose(expanded_keys[ek_index])
+            expanded_keys.append([])
+            ek_index += 1
+
+        num_bytes_generated += 4
+
+    del expanded_keys[len(expanded_keys) - 1]
+
+    return expanded_keys
+
+def key_expansion_256(input_key):
+    expanded_keys = []
+    expanded_keys.append(input_key)
+
+    num_bytes_generated = 32
+    rcon_iteration = 1
+    temp = []
+    expanded_keys.append([])
+    ek_index = 1
+
+    while num_bytes_generated < 240:
+
+        if num_bytes_generated % 32 == 0:
+            temp = list(expanded_keys[(num_bytes_generated // 32) - 1][3])
+        else:
+            temp = list(expanded_keys[num_bytes_generated // 32][
+                        ((num_bytes_generated % 32) // 4) - 1])
+
+        if num_bytes_generated % 32 == 0:
+            temp = key_expansion_core(temp, rcon_iteration)
+            rcon_iteration += 1
+
+        print(type(temp[0][0]))
+        #print_2d_bytes(temp)
+        if num_bytes_generated % 32 == 16:
+            sub_bytes(temp)
+
+        temp = xor_columns(
+            temp, expanded_keys[(num_bytes_generated // 32) - 1][(num_bytes_generated % 32) // 4])
+
+        expanded_keys[ek_index].append(list(temp))
+
+        if len(expanded_keys[ek_index]) == 8:
             expanded_keys.append([])
             ek_index += 1
 
@@ -180,7 +269,13 @@ def shift_rows(block):
 
 
 def inv_mix_columns(block):
-    
+    temp = deepcopy(block)
+    for i in range(4):
+        temp[i][0] = (mul14[block[i][0][0]][0] ^ mul11[block[i][1][0]][0] ^ mul13[block[i][2][0]][0] ^ mul9[block[i][3][0]][0]).to_bytes(1, byteorder='big')
+        temp[i][1] = (mul9[block[i][0][0]][0] ^ mul14[block[i][1][0]][0] ^ mul11[block[i][2][0]][0] ^ mul13[block[i][3][0]][0]).to_bytes(1, byteorder='big')
+        temp[i][2] = (mul13[block[i][0][0]][0] ^ mul9[block[i][1][0]][0] ^ mul14[block[i][2][0]][0] ^ mul11[block[i][3][0]][0]).to_bytes(1, byteorder='big')
+        temp[i][3] = (mul11[block[i][0][0]][0] ^ mul13[block[i][1][0]][0] ^ mul9[block[i][2][0]][0] ^ mul14[block[i][3][0]][0]).to_bytes(1, byteorder='big')
+    return temp
 
 def mix_columns(block):
     temp = deepcopy(block)
@@ -307,6 +402,7 @@ def main():
 
     for i in range(len(state)):
         print("Encrypted State: Block", i)
+        #print_2d_bytes(decrypt_256(encrypt_256(state[i], expanded_keys), expanded_keys))
         print_2d_bytes(encrypt_128(state[i], expanded_keys))
         print("")
 
@@ -314,6 +410,9 @@ def main():
     print("test inv_shift_rows")
     inv_shift_rows(matrix)
     print(matrix)
+    print(test_key_256)
+    expanded_keys = key_expansion_256(test_key_256)
+    print_3d_bytes(expanded_keys)
 
 
 if __name__ == '__main__':
