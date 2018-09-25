@@ -214,11 +214,9 @@ def transpose(block):
                   for col in range(len(block))] for row in range(len(block[0]))]
     return new_block
 
-
 def print_3d_bytes(list_of_matrix):
     print("\n".join([" ".join([" ".join([str(k.hex()) for k in j]) for j in i])
           for i in list_of_matrix]))
-
 
 def print_2d_bytes(matrix):
     print("\n".join([" ".join([str(k.hex()) for k in j]) for j in matrix]))

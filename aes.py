@@ -1,8 +1,8 @@
-"""
+#!/usr/bin/env python
 
-"""
 from utils import least_significant_mask, most_significant_mask, s_box, s_box_inv, transpose, rcon, mul2, mul3, mul9, mul11, mul13, mul14, padding, test_key, test_key_256, print_3d_bytes, print_2d_bytes
 from copy import copy, deepcopy
+import argparse
 
 
 def encrypt_128(block, expanded_keys):
@@ -449,12 +449,13 @@ def main():
     state = read_file("test/input")
     for i in range(len(state)):
         #print("Initial State: Block", i)
-        print_2d_bytes(state[i])
+        #print_2d_bytes(state[i])
         #print("")
+        continue
 
-    test_key = read_key("test/key")
+    test_key = read_key("test/key2")
     #print("This is the key")
-    expanded_keys = key_expansion(test_key)
+    expanded_keys = key_expansion_256(test_key)
     #print("Expanded Key")
     #print_3d_bytes(expanded_keys)
     #print("")
@@ -462,11 +463,11 @@ def main():
     for i in range(len(state)):
         #print("Encrypted State: Block", i)
         #print_2d_bytes(decrypt_256(encrypt_256(state[i], expanded_keys), expanded_keys))
-        encrypt_128(state[i], expanded_keys)
+        state[i] = encrypt_256(state[i], expanded_keys)
         #print("")
 
     for i in range(len(state)):
-        decrypt_128(state[i], expanded_keys)
+        state[i] = decrypt_256(state[i], expanded_keys)
 
     #print(state[1])
     #print("No Padding")
@@ -487,4 +488,48 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description='Test AES implem')
+
+    parser.add_argument('keysize', metavar='aes_size', type=int,
+                        help='Which AES mode (128/256)', choices=[128,256])
+
+    parser.add_argument('keyfile', metavar='key_file_name', type=str,
+                        help='File used for key')
+
+    parser.add_argument('inputfile', metavar='input_file_name', type=str,
+                        help='File used for message')
+
+    parser.add_argument('outputfile', metavar='output_file_name', type=str,
+                        help='File used for output')
+
+    parser.add_argument('mode', metavar='encrypt_or_decrypt', type=str,
+                        help='Which function (encrypt/decrypt)'. choices=["encrypt","decrypt","e","d"])
+
+    args = parser.parse_args()
+
+    keyfile = args.inputfile
+    inputfile = args.inputfile
+    outputfile = args.outputfile
+    state = read_file(inputfile)
+    expanded_keys = []
+
+    if args.keysize == 128:
+        expanded_keys = key_expansion(read_key(keyfile))
+
+        if args.mode == "encrypt" or args.mode == "e":
+            state = encrypt_128(state, expanded_keys)
+        else:
+            state = decrypt_128(state, expanded_keys)
+            state[len(state) - 1] = remove_padding(state[len(state) - 1])
+
+
+    else:
+        expanded_keys = key_expansion_256(read_key(keyfile))
+
+        if args.mode == "encrypt" or args.mode == "e":
+            state = encrypt_256(state, expanded_keys)
+        else:
+            state = decrypt_256(state, expanded_keys)
+            state[len(state) - 1] = remove_padding(state[len(state) - 1])
+
+    output_to_file(outputfile, state)
