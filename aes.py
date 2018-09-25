@@ -179,7 +179,9 @@ def shift_rows(block):
     block[3][1] = temp
 
 
-# does not work at all
+def inv_mix_columns(block):
+    
+
 def mix_columns(block):
     temp = deepcopy(block)
     for i in range(4):
