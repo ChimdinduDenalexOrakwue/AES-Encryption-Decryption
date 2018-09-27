@@ -13,21 +13,19 @@ padding = [
 
 def transpose(block):
 	""" Transposes a N x N matrix. """
-    new_block = [[block[col][row]
-                  for col in range(len(block))] for row in range(len(block[0]))]
-    return new_block
+	new_block = [[block[col][row] for col in range(len(block))] for row in range(len(block[0]))]
+	return new_block
 
 
 def print_3d_bytes(list_of_matrix):
 	"""
 	Prints a 3D matrix of bytes in a readable fashion.
 	"""
-    print("\n".join([" ".join([" ".join([str(k.hex()) for k in j]) for j in i])
-          for i in list_of_matrix]))
+	print("\n".join([" ".join([" ".join([str(k.hex()) for k in j]) for j in i]) for i in list_of_matrix]))
 
 
 def print_2d_bytes(matrix):
 	"""
 	Prints a 2D matrix of bytes in a readable fashion.
 	"""
-    print("\n".join([" ".join([str(k.hex()) for k in j]) for j in matrix]))
+	print("\n".join([" ".join([str(k.hex()) for k in j]) for j in matrix]))
