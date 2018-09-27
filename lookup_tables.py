@@ -1,4 +1,5 @@
 """
+Lookup tables for AES 128/256 encryption/decryption
 """
 
 s_box = [

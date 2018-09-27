@@ -1,5 +1,5 @@
 """
-utils for aes
+Utils for AES 128/256 encryption/decryption.
 """
 
 most_significant_mask = 0xf0
